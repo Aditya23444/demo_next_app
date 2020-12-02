@@ -1,65 +1,111 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+
+import React from 'react';
+import {Container} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import axios from 'axios';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '100px',
+  },
+  button: {
+    marginTop: theme.spacing(3)
+  },
+  textField: {
+    marginTop: theme.spacing(2)
+  }
+}));
+
 
 export default function Home() {
+  const classes = useStyles();
+
+    const  handleRegister = () => {
+
+        axios.post('http://localhost:3030/register', {
+            name: name,
+            email: email,
+            phone : phone,
+            password: password
+        })
+            .then(function (response) {
+                alert('registered successfully')
+            })
+    };
+
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+
+
+  const [password, setPassword] = React.useState('');
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <Container maxWidth="xs" className={classes.paper}>
+        <Typography component="h1" variant="h5" align="center">
+          {'Sign Up'}
+        </Typography>
+        <TextField
+            autoFocus
+            fullWidth
+            label="Name"
+            margin="normal"
+            onChange={event => setName(event.target.value)}
+            required
+            // type={text}
+            variant="outlined"
+            value={name}
+        />
+        <TextField
+            fullWidth
+            label="Email"
+            margin="normal"
+            onChange={event => setEmail(event.target.value)}
+            required
+            // type={email}
+            variant="outlined"
+            value={email}
+        />
+        <TextField
+            fullWidth
+            label="Phone"
+            margin="normal"
+            onChange={event => setPhone(event.target.value)}
+            required
+            variant="outlined"
+            value={phone}
+        />
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <TextField
+            fullWidth
+            label="Password"
+            margin="normal"
+            name="password"
+            onChange={event => setPassword(event.target.value)}
+            required
+            variant="outlined"
+            value={password}
+        />
+        <Button
+            className={classes.button}
+            color="primary"
+            onClick={handleRegister}
+            variant="contained"
+            type="submit"
+            fullWidth
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+          Register
+        </Button>
+
+      </Container>
   )
 }
